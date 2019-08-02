@@ -1,0 +1,27 @@
+[
+  {
+  "id": "hello-world",
+  "title": "Patient greeting",
+  "description": "Display which patient the user is currently working with",
+  "hook": "hello-world",
+  "prefetch": {
+    "name": ""
+  },
+  "enabled": true
+},
+  {
+    "id": "score-calc",
+    "title": "Ten-year Fatal Cardiovascular Risk Calculation",
+    "description": "Ten-year Fatal Cardiovascular Risk Calculation based on SCORE project",
+    "hook": "score-calc",
+    "prefetch": {
+      "birthDate": "",
+      "gender": "",
+      "risk": "",
+      "sbp": "",
+      "cholesterol": "",
+      "smoker": ""
+    },
+    "enabled": true
+  }
+]

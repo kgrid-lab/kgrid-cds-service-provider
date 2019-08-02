@@ -1,0 +1,225 @@
+openapi: 3.0.0
+info:
+  version: '1.0'
+  title: CDS Hooks REST API
+servers:
+  - url: 'http://localhost:8080'
+    description: Local KGrid CDS Services
+  - url: 'http://cds-service-example.herokuapp.com'
+    description: CDS Example Server
+
+paths:
+  /cds-services:
+    get:
+      description: Get a description of all CDS services offered by this CDS Provider
+      responses:
+        '200':
+          description: Success (includes CDS service metadata)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CDS_Service_Information'
+  '/cds-services/{id}':
+    post:
+      description: Invoke a CDS service offered by this CDS Provider
+      parameters:
+        - name: id
+          in: path
+          description: The id of this CDS service
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CDS_Request'
+        description: Body of CDS service request
+        required: true
+      responses:
+        '200':
+          description: Success (includes CDS Cards)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CDS_Response'
+
+components:
+  schemas:
+    Card:
+      type: object
+      required:
+        - summary
+        - indicator
+        - source
+      properties:
+        summary:
+          type: string
+        detail:
+          type: string
+        indicator:
+          type: string
+          enum:
+            - info
+            - warning
+            - critical
+        source:
+          $ref: '#/components/schemas/Source'
+        suggestions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Suggestion'
+        selectionBehavior:
+          type: string
+          enum:
+            - at-most-one
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+    Source:
+      type: object
+      required:
+        - label
+      properties:
+        label:
+          type: string
+        url:
+          type: string
+          format: url
+        icon:
+          type: string
+          format: url
+    Link:
+      type: object
+      properties:
+        label:
+          type: string
+        url:
+          type: string
+          format: url
+        type:
+          type: string
+        appContext:
+          type: string
+    Suggestion:
+      type: object
+      required:
+        - label
+      properties:
+        label:
+          type: string
+        uuid:
+          type: string
+          format: uuid
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Action'
+    Action:
+      type: object
+      required:
+        - type
+        - description
+      properties:
+        type:
+          type: string
+          enum:
+            - create
+            - update
+            - delete
+        description:
+          type: string
+        resource:
+          type: object
+    Prefetch:
+      type: object
+      description: >-
+        queries that the CDS Service would like the CDS Client to execute before
+        every call
+      additionalProperties:
+        type: string
+    CDS_Service_Information:
+      type: object
+      properties:
+        services:
+          type: array
+          items:
+            $ref: '#/components/schemas/CDS_Service'
+    CDS_Service:
+      type: object
+      required:
+        - id
+        - hook
+        - description
+      properties:
+        id:
+          type: string
+          description: >-
+            short id for this service, unique with the CDS Provider (will be
+            used in URL paths)
+        hook:
+          type: string
+          description: The hook this service should be invoked on.
+        title:
+          type: string
+          description: >-
+            Human-readable name for the CDS Service (e.g. "CMS Drug Pricing
+            Service")
+        description:
+          type: string
+          description: Longer-form description of what the service offers
+        prefetch:
+          $ref: '#/components/schemas/Prefetch'
+    CDS_Request:
+      type: object
+      required:
+        - hook
+        - hookInstance
+        - context
+      properties:
+        hook:
+          type: string
+          description: The hook that triggered this CDS Service call.
+        hookInstance:
+          type: string
+          format: uuid
+        fhirServer:
+          type: string
+          format: url
+        fhirAuthorization:
+          $ref: '#/components/schemas/FHIR_Authorization'
+        context:
+          type: object
+        prefetch:
+          type: object
+    FHIR_Authorization:
+      type: object
+      required:
+        - access_token
+        - token_type
+        - expires_in
+        - scope
+        - subject
+      properties:
+        access_token:
+          type: string
+        token_type:
+          type: string
+          enum:
+            - Bearer
+        expires_in:
+          type: integer
+        scope:
+          type: string
+        subject:
+          type: string
+    CDS_Response:
+      type: object
+      required:
+        - cards
+      properties:
+        cards:
+          type: array
+          items:
+            $ref: '#/components/schemas/Card'
