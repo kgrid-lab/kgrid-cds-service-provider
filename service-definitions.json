@@ -15,7 +15,7 @@
     "description": "Ten-year Fatal Cardiovascular Risk Calculation based on SCORE project",
     "hook": "score-calc",
     "prefetch": {
-      "birthDate": "",
+      "birthdate": "",
       "gender": "",
       "risk": "",
       "sbp": "",

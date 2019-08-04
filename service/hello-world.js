@@ -1,22 +1,32 @@
 
 
-module.exports =  {
-  payload: {
-    cards: [{
-      summary: 'Hello world',
-      detail: 'The following patient education resources were found.\n\n'
-          + '### Conditions\n###### Amnesia(2005-05-22)\n* '
-          + '[Confusion, Memory Loss, and Altered Alertness](https://www.healthwise.net/hworg/Content/StdDocument.aspx?DOCHWID=confu&f=br549)\n'
-          + '###### Alzheimer\'s disease(2008-08-08)\n'
-          + '* [Alzheimer\'s Disease](https://www.healthwise.net/hworg/Content/StdDocument.aspx?DOCHWID=hw136623&f=br549),\n'
-          + '* [Dementia](https://www.healthwise.net/hworg/Content/StdDocument.aspx?DOCHWID=uf4984&f=br549),\n'
-          + '* [Alzheimer\'s Disease: Should I Take Medicines?](https://www.healthwise.net/hworg/Content/StdDocument.aspx?DOCHWID=ty7566&f=br549)\n'
-          + '###### Needs influenza immunization(2008-08-08)',
-      source: {
-        label: 'Healthwise',
-        url: 'http://www.healthwise.org'
-      },
-      indicator: 'info'
-    }]
-  }
+const axios = require('axios');
+
+function Card(summary, detail, label, url, indicator) {
+  this.summary = summary;
+  this.detail = detail;
+  this.source ={'label':label, 'url':label}
+  this.indicator = indicator;
+}
+
+
+module.exports = function(req, res, next) {
+
+  const axiosConfig = {
+    headers: { Accept: 'application/json' }
+  };
+  const url = 'http://kgrid-activator.herokuapp.com/hello/world/v0.2.0/welcome';
+  const data = {"name": req.body.context.name };
+
+  axios.post(url, data , axiosConfig ).
+  then((response) => {
+    console.log('response' + response.data.result)
+    let aCard = new Card( "Hello World", response.data.result , "label", "url", "info");
+    let responseObject =  { payload: { cards: [ aCard ]} };
+    res.send( responseObject );
+  });
+
+
 };
+
+

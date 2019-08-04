@@ -1,46 +1,52 @@
-'use strict';
+const express = require('express');
+const bodyParser = require('body-parser');
+const cdsServices = require('./service/cds-services');
+const defaultCors = require('./middleware/default-cors');
+const errorHandler = require('./middleware/error-handler');
+const winston = require('winston'),
+    expressWinston = require('express-winston');
 
-var fs = require('fs'),
-    http = require('http'),
-    path = require('path');
 
-var express = require("express");
-var app = express();
-var bodyParser = require('body-parser');
-app.use(bodyParser.json({
-  strict: false
+const app = express();
+
+
+app.use(expressWinston.logger({
+  transports: [
+    new winston.transports.Console()
+  ],
+  format: winston.format.combine(
+      winston.format.colorize(),
+      winston.format.simple()
+  )
 }));
-var oasTools = require('oas-tools');
-var jsyaml = require('js-yaml');
-var serverPort = 8080;
 
-var spec = fs.readFileSync(path.join(__dirname, '/api/openapi.yaml'), 'utf8');
-var oasDoc = jsyaml.safeLoad(spec);
+// This is necessary middleware to parse JSON into the incoming request body for POST requests
+app.use(bodyParser.json());
 
-var options_object = {
-  controllers: path.join(__dirname, './controllers'),
-  loglevel: 'debug',
-  strict: false,
-  router: true,
-  validator: true
-};
+// CDS Services must implement CORS to be called from a web browser
+app.use(defaultCors);
 
-oasTools.configure(options_object);
+app.set('json spaces', '  ');
 
-oasTools.initialize(oasDoc, app, function() {
-  http.createServer(app).listen(serverPort, function() {
-    console.log("App running at http://localhost:" + serverPort);
-    console.log("________________________________________________________________");
-    if (options_object.docs !== false) {
-      console.log('API docs (Swagger UI) available on http://localhost:' + serverPort + '/docs');
-      console.log("________________________________________________________________");
-    }
-  });
+app.use('/cds-services', cdsServices);
+
+app.use((request, response, next) => {
+  const err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
 
-app.get('/info', function(req, res) {
-  res.send({
-    info: "This API was generated using oas-generator!",
-    name: oasDoc.info.title
-  });
-});
+// Handle specified errors or return a 500 for internal errors
+app.use(errorHandler);
+
+app.use(expressWinston.errorLogger({
+  transports: [
+    new winston.transports.Console()
+  ],
+  format: winston.format.combine(
+      winston.format.colorize(),
+      winston.format.json()
+  )
+}));
+
+module.exports = app;

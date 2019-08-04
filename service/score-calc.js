@@ -1,22 +1,38 @@
+const axios = require('axios');
+const getAge = require('get-age')
+
+function Card(summary, detail, label, url, indicator) {
+  this.summary = summary;
+  this.detail = detail;
+  this.source ={'label':label, 'url':label}
+  this.indicator = indicator;
+}
 
 
-module.exports =  {
-  payload: {
-    cards: [{
-      summary: 'Hello world',
-      detail: 'The following patient education resources were found.\n\n'
-          + '### Conditions\n###### Amnesia(2005-05-22)\n* '
-          + '[Confusion, Memory Loss, and Altered Alertness](https://www.healthwise.net/hworg/Content/StdDocument.aspx?DOCHWID=confu&f=br549)\n'
-          + '###### Alzheimer\'s disease(2008-08-08)\n'
-          + '* [Alzheimer\'s Disease](https://www.healthwise.net/hworg/Content/StdDocument.aspx?DOCHWID=hw136623&f=br549),\n'
-          + '* [Dementia](https://www.healthwise.net/hworg/Content/StdDocument.aspx?DOCHWID=uf4984&f=br549),\n'
-          + '* [Alzheimer\'s Disease: Should I Take Medicines?](https://www.healthwise.net/hworg/Content/StdDocument.aspx?DOCHWID=ty7566&f=br549)\n'
-          + '###### Needs influenza immunization(2008-08-08)',
-      source: {
-        label: 'Healthwise',
-        url: 'http://www.healthwise.org'
-      },
-      indicator: 'info'
-    }]
+module.exports = function(req, res, next) {
+
+  const axiosConfig = {
+    headers: { Accept: 'application/json' }
+  };
+  const url = 'http://kgrid-activator.herokuapp.com/score/calc/v0.3.0/score';
+
+  let age = getAge(req.body.context.patient.birthdate);
+
+  const data = {
+    "age": age,
+    "gender": req.body.context.patient.gender,
+    "risk": req.body.context.observation.risk,
+    "sbp": req.body.context.observation.sbp,
+    "cholesterol": req.body.context.observation.cholesterol,
+    "smoker": req.body.context.observation.smoker
   }
+
+  axios.post(url, data , axiosConfig ).
+  then((response) => {
+    let aCard = new Card( "CVD Risk Score", response.data.result , "label", "url", "info");
+    let responseObject =  { payload: { cards: [ aCard ]} };
+    res.send( responseObject );
+  });
+
+
 };

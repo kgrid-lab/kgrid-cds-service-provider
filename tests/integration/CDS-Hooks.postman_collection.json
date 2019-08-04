@@ -1,0 +1,121 @@
+{
+	"info": {
+		"_postman_id": "c4f4b895-442c-41c8-be24-a6c5ec9a3607",
+		"name": "CDS-Hooks",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Hello World",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b27f6e1b-8157-4a63-ae87-254f6dc07d23",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Hello World Card\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    console.log(jsonData);",
+							"    pm.expect(jsonData.payload.cards[0].detail).to.eql(\"Welcome to Knowledge Grid, Greg CDS Hooks\");",
+							"});",
+							"",
+							"pm.test(\"Hello World Info Card\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    console.log(jsonData);",
+							"    pm.expect(jsonData.payload.cards[0].indicator).to.eql(\"info\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"hook\": \"string\",\n  \"hookInstance\": \"string\",\n  \"fhirServer\": \"string\",\n  \"fhirAuthorization\": {\n    \"access_token\": \"string\",\n    \"token_type\": \"Bearer\",\n    \"expires_in\": 0,\n    \"scope\": \"string\",\n    \"subject\": \"string\"\n  },\n  \"context\": {\n  \t\"name\": \"Greg CDS Hooks\"\n  },\n  \"prefetch\": {}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/cds-services/hello-world",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"cds-services",
+						"hello-world"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cardiovascular Risk Score",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b27f6e1b-8157-4a63-ae87-254f6dc07d23",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"CVD Risk Score Card\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    console.log(jsonData);",
+							"    pm.expect(jsonData.payload.cards[0].summary).to.eql(\"CVD Risk Score\");",
+							"});",
+							"",
+							"pm.test(\"Hello World Info Card\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    console.log(jsonData);",
+							"    pm.expect(jsonData.payload.cards[0].indicator).to.eql(\"info\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"hook\": \"string\",\n  \"hookInstance\": \"string\",\n  \"fhirServer\": \"string\",\n  \"fhirAuthorization\": {\n    \"access_token\": \"string\",\n    \"token_type\": \"Bearer\",\n    \"expires_in\": 0,\n    \"scope\": \"string\",\n    \"subject\": \"string\"\n  },\n\"context\" : {\n  \"encounterId\": \"456\",\n  \"patient\": {\n    \"resourceType\": \"Patient\",\n    \"id\": \"123\",\n    \"active\": true,\n    \"name\": [\n      {\n        \"use\": \"official\",\n        \"family\": \"Watts\",\n        \"given\": [\n          \"Wade\"\n        ]\n      }\n    ],\n    \"gender\": \"female\",\n    \"birthdate\": \"1962-08-12\"\n    },\n    \"observation\":{\n       \"risk\": \"low\",\n       \"sbp\": 120,\n       \"cholesterol\": 8,\n       \"smoker\": false\n    }\n  \n},\n  \"prefetch\": {}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/cds-services/score-calc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"cds-services",
+						"score-calc"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
