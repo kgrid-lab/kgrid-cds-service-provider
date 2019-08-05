@@ -9,7 +9,9 @@ show the end-user or otherwise interweave into the workflow
 
 ### CDS Services
 We have two CDS Services, each access a KO service from our
-[example collection](https://github.com/kgrid-objects/example-collection).
+[example collection](https://github.com/kgrid-objects/example-collection).  The CDS services access
+the KO Services at https://kgrid-activator.herokuapp.com/.
+
 These CD services
 
 - [Hello World KO](https://kgrid-activator.herokuapp.com/kos/hello/world)
@@ -48,9 +50,7 @@ npm run dev
 ### Running Integration tests
 
 Our inteegration tests run the hello world and score calc CDS services using [Postman](https://www.getpostman.com/) and
-[Newman](https://www.npmjs.com/package/newman).  The CDS services access
-the KO Services at https://kgrid-activator.herokuapp.com/.
-
+[Newman](https://www.npmjs.com/package/newman). 
 
 ```
 npm test
