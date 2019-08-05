@@ -13,7 +13,7 @@ We have two CDS Services, each access a KO service from our
 These CD services
 
 - [Hello World KO](https://kgrid-activator.herokuapp.com/kos/hello/world)
-- [Score Calc KO](https://kgrid-activator.herokuapp.com/kos/score/calc)
+- [Ten-year Fatal Cardiovascular Risk Calculation KO](https://kgrid-activator.herokuapp.com/kos/score/calc)
 
 
 #### Service Definition
