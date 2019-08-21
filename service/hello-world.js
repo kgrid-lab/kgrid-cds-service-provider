@@ -45,7 +45,7 @@ module.exports = function(req, res, next) {
     let aCard = new Card( "Hello World", response.data.result , "label", "url", "info", links);
     links.push({label: "new link", url: "http://yahoo.com", type: "absolute"});
     let card2 = new Card("Hello links", response.data.result, "label", "url", "warning", links);
-    let responseObject =  { cards: [ aCard ]};
+    let responseObject =  { cards: [ aCard, card2 ]};
     res.send( responseObject );
   });
 
