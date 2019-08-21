@@ -5,7 +5,7 @@ const axios = require('axios');
 function Card(summary, detail, label, url, indicator, links) {
   this.summary = summary;
   this.detail = detail;
-  this.source ={'label':label, 'url':label}
+  this.source ={'label':label, 'url':url}
   this.indicator = indicator;
   this.links = links;
 }
