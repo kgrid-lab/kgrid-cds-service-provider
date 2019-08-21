@@ -17,7 +17,7 @@ module.exports = function(req, res, next) {
   };
   const url = 'http://kgrid-activator.herokuapp.com/hello/world/v0.2.0/welcome';
   console.log("BODY IS: " + JSON.stringify(req.body, null, 4));
-  const data = {"name": req.body.context.patient.name[0].given[0] };
+  const data = {"name": req.body.prefetch.patient.name[0].given[0] };
 
   axios.post(url, data , axiosConfig ).
   then((response) => {
