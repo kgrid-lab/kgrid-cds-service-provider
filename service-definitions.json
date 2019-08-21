@@ -1,9 +1,9 @@
 [
   {
-  "id": "hello-world",
+  "id": "hw-patient-education",
   "title": "Patient greeting",
   "description": "Display which patient the user is currently working with",
-  "hook": "hello-world",
+  "hook": "patient-view",
   "prefetch": {
     "name": ""
   },
@@ -21,6 +21,18 @@
       "sbp": "",
       "cholesterol": "",
       "smoker": ""
+    },
+    "enabled": true
+  },
+  {
+    "id": "bmi-calc",
+    "title": "Calculates BMI",
+    "description": "Calculates BMI given a panel of patent data",
+    "hook": "bmi-calc",
+    "prefetch": {
+      "age":"",
+      "race":"",
+      "gender":""
     },
     "enabled": true
   }
