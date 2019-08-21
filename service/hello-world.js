@@ -42,7 +42,7 @@ module.exports = function(req, res, next) {
         + "          \"appContext\": \"{\\\"session\\\":3456356,\\\"settings\\\":{\\\"module\\\":4235}}\"\n"
         + "        }\n"
         + "      ]");
-    let aCard = new Card( "Hello World", response.data.result , "label", "url", "info", null);
+    let aCard = new Card( "Hello World", response.data.result , "label", "url", "info", links);
     links.push({label: "new link", url: "http://yahoo.com", type: "absolute"});
     let card2 = new Card("Hello links", response.data.result, "label", "url", "warning", links);
     let responseObject =  { cards: [ aCard ]};
