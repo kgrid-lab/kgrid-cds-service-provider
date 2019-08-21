@@ -16,7 +16,7 @@ module.exports = function(req, res, next) {
     headers: { Accept: 'application/json' }
   };
   const url = 'http://kgrid-activator.herokuapp.com/hello/world/v0.2.0/welcome';
-  const data = {"name": req.body.context.name };
+  const data = {"name": req.body.context.patient.name.given[0] };
 
   axios.post(url, data , axiosConfig ).
   then((response) => {
