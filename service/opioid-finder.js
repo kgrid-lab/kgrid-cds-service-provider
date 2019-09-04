@@ -15,11 +15,15 @@ module.exports = function(req, res, next) {
   };
   const url = 'http://kgrid-activator.herokuapp.com/99999/10101/v0.0.2/opioidDetector';
   const data = req.body.context;
+  console.log("Request: " + JSON.stringify(req.body, null, 4));
 
   axios.post(url, data , axiosConfig ).
   then((response) => {
-    console.log('response' + response.data.result)
-    let aCard = new Card( "Opioid Detector", response.data.result , "label", "url", "info");
+    let message = "Opioid not detected";
+    if(response.data.result.condition_satisfied) {
+      message = "Opioid detected!"
+    }
+    let aCard = new Card( "Opioid Detector", message, "label", "url", "info");
     let responseObject =  { payload: { cards: [ aCard ]} };
     res.send( responseObject );
   });
