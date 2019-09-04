@@ -15,6 +15,7 @@ module.exports = function(req, res, next) {
   };
   const url = 'http://kgrid-activator.herokuapp.com/ipp/stroke10y/v0.0.2/stroke10y';
   const data = req.body.context;
+  console.log("Request: " + JSON.stringify(req.body, null, 4));
 
   axios.post(url, data , axiosConfig ).
   then((response) => {
