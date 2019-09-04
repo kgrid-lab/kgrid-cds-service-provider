@@ -24,7 +24,7 @@ module.exports = function(req, res, next) {
       message = "Opioid detected!"
     }
     let aCard = new Card( "Opioid Detector", message, "label", "url", "info");
-    let responseObject =  { payload: { cards: [ aCard ]} };
+    let responseObject =  { cards: [ aCard ]};
     res.send( responseObject );
   });
 
