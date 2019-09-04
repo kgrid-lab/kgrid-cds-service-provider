@@ -19,11 +19,10 @@ module.exports = function(req, res, next) {
   console.log("Request: " + JSON.stringify(req.body, null, 4));
 
   let age = getAge(req.body.prefetch.patient.birthDate);
-  console.log("age is " + age);
-  let input = {"features": {"age": age}}
+  let gender = req.body.prefetch.patient.gender;
+  let input = {"features": {"age": age, "gender": gender}};
   axios.post(url, input , axiosConfig ).
   then((response) => {
-    console.log('response ' + response.data.result)
     prob = response.data.result.stroke10y.split(",")[age];
     let aCard = new Card( "Stroke 10-year Risk", prob , "label", "url", "info");
     let responseObject =  { cards: [ aCard ] };

@@ -30,7 +30,7 @@ module.exports = function(req, res, next) {
   axios.post(url, data , axiosConfig ).
   then((response) => {
     let aCard = new Card( "CVD Risk Score", response.data.result , "label", "url", "info");
-    let responseObject =  { payload: { cards: [ aCard ]} };
+    let responseObject =  {cards: [ aCard ]};
     res.send( responseObject );
   });
 
