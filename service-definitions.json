@@ -25,14 +25,12 @@
     "enabled": true
   },
   {
-    "id": "bmi-calc",
-    "title": "Calculates BMI",
-    "description": "Calculates BMI given a panel of patent data",
-    "hook": "bmi-calc",
+    "id": "opioid-finder",
+    "title": "Opioid Finger",
+    "description": "Checks for opioids in a list of medications",
+    "hook": "opioid-finder",
     "prefetch": {
-      "age":"",
-      "race":"",
-      "gender":""
+      "patient": "Patient/{{context.patientId}}"
     },
     "enabled": true
   }

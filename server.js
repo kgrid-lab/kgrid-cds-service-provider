@@ -12,7 +12,7 @@ app.use(expressWinston.logger({
   )
 }));
 
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 3000;
 
 app.listen(port, function(){
   console.log("express-winston demo listening on port %d in %s mode", this.address().port, app.settings.env);
