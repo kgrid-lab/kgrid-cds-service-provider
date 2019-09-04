@@ -1,4 +1,5 @@
 const axios = require('axios');
+const getAge = require('get-age')
 
 function Card(summary, detail, label, url, indicator) {
   this.summary = summary;
@@ -17,7 +18,9 @@ module.exports = function(req, res, next) {
   const data = req.body.context;
   console.log("Request: " + JSON.stringify(req.body, null, 4));
 
-  axios.post(url, data , axiosConfig ).
+  let age = getAge(req.body.context.prefetch.patient.birthdate);
+  let input = {"features": {"age": age}}
+  axios.post(url, input , axiosConfig ).
   then((response) => {
     console.log('response' + response.data.result)
     prob = response.data.result.stroke10y.split(",")[req.body.context.features.age];
