@@ -18,7 +18,7 @@ module.exports = function(req, res, next) {
   const data = req.body.context;
   console.log("Request: " + JSON.stringify(req.body, null, 4));
 
-  let age = getAge(req.body.context.prefetch.patient.birthdate);
+  let age = getAge(req.body.prefetch.patient.birthDate);
   let input = {"features": {"age": age}}
   axios.post(url, input , axiosConfig ).
   then((response) => {
