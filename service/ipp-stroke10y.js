@@ -20,7 +20,9 @@ module.exports = function(req, res, next) {
 
   let age = getAge(req.body.prefetch.patient.birthDate);
   let gender = req.body.prefetch.patient.gender;
-  let input = {"features": {"age": age, "gender": gender}};
+  let systolic = req.body.prefetch.systolicBloodPressure.entry[0].resource.component.filter(component => {
+    component.code.coding.filter(coding=> coding.system === "http://loinc.org")[0].code === "8480-6"})[0].valueQuantity.value;
+  let input = {"features": {"age": age, "gender": gender, "systolic": systolic}};
   axios.post(url, input , axiosConfig ).
   then((response) => {
     prob = response.data.result.stroke10y.split(",")[age];
