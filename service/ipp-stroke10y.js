@@ -19,7 +19,7 @@ module.exports = function(req, res, next) {
   axios.post(url, data , axiosConfig ).
   then((response) => {
     console.log('response' + response.data.result)
-    prob = response.data.result.detail.stroke10y.split(",")[req.body.context.features.age];
+    prob = response.data.result.stroke10y.split(",")[req.body.context.features.age];
     let aCard = new Card( "Stroke 10-year Risk", prob , "label", "url", "info");
     let responseObject =  { payload: { cards: [ aCard ]} };
     res.send( responseObject );
