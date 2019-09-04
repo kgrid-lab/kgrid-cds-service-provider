@@ -33,5 +33,15 @@
       "patient": "Patient/{{context.patientId}}"
     },
     "enabled": true
+  },
+  {
+    "id": "ipp-stroke10y",
+    "title": "Stroke 10 year risk calculator",
+    "description": "Calculates the risk of a patient having a stroke in the next 10 years",
+    "hook": "ipp-stroke10y",
+    "prefetch": {
+      "patient": "Patient/{{context.patientId}}"
+    },
+    "enabled": true
   }
 ]
