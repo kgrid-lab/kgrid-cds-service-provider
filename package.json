@@ -17,6 +17,7 @@
     "express-winston": "^3.2.1",
     "get-age": "^1.0.1",
     "js-yaml": "^3.3.0",
+    "jsonpath": "^1.0.2",
     "newman": "^4.5.3",
     "oas-tools": "^2.1.4",
     "winston": "^3.2.1"

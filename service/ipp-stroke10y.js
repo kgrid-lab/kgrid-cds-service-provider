@@ -1,10 +1,12 @@
 const axios = require('axios');
-const getAge = require('get-age')
+const getAge = require('get-age');
+const jp = require('jsonpath');
+
 
 function Card(summary, detail, label, url, indicator) {
   this.summary = summary;
   this.detail = detail;
-  this.source ={'label':label, 'url':label}
+  this.source ={'label':label, 'url':label};
   this.indicator = indicator;
 }
 
@@ -20,8 +22,7 @@ module.exports = function(req, res, next) {
 
   let age = getAge(req.body.prefetch.patient.birthDate);
   let gender = req.body.prefetch.patient.gender;
-  let systolic = req.body.prefetch.systolicBloodPressure.entry[0].resource.component.filter(component => {
-    component.code.coding.filter(coding=> coding.system === "http://loinc.org")[0].code === "8480-6"})[0].valueQuantity.value;
+  let systolic = jp.query(req.body.prefetch.systolicBloodPressureObservation, '$..entry[0].resource.component[?(@.code.coding[0].code=="8480-6")].valueQuantity.value')[0];
   let input = {"features": {"age": age, "gender": gender, "systolic": systolic}};
   axios.post(url, input , axiosConfig ).
   then((response) => {
