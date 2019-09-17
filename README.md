@@ -22,7 +22,8 @@ the KO Services at https://kgrid-activator.herokuapp.com/.
 
 We have also created CDS hook integrations for the [score calc example](https://kgrid-activator.herokuapp.com/kos/score/calc), 
 the [opioid finder](https://kgrid-activator.herokuapp.com/kos/99999/10101) and the 
-[IPP 10 year stroke risk calculator](https://kgrid-activator.herokuapp.com/kos/ipp/stroke10y).
+[IPP 10 year stroke risk calculator](https://kgrid-activator.herokuapp.com/kos/ipp/stroke10y). These
+can all be found in the `/service` directory. 
 
 #### Service Definition
 Developers of CDS Services SHALL provide a stable endpoint for allowing
