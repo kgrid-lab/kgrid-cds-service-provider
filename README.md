@@ -92,11 +92,11 @@ Once a member you should be able to navigate to the [Heroku Dashboard](https://d
 ## Creating your own CDS hooks integrations
 
 You can fork this project to create your own CDS hooks that connect to knowledge 
-object services for calculation. As the examples show all you just need two simple data transforms:
+object services. As the examples show all you just need two simple data transforms:
 One to transform the data provided by the EHR into the knowledge grid inputs and one to convert the
 knowledge grid results into a CDS hook card.
 
-From the hello world example:
+####From the hello world example:
 
 This section takes data sent from the EHR and passes it to the knowledge object.
 ```javascript
@@ -124,8 +124,8 @@ can be read by the EHR.
     res.send( responseObject );
   });
 ```
+The other objects all behave similarly.
 
-See the other objects for more examples.
 
 ### Resources
 
