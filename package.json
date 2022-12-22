@@ -19,7 +19,7 @@
     "js-yaml": "^3.3.0",
     "jsonpath": "^1.0.2",
     "newman": "^5.1.2",
-    "oas-tools": "^2.1.4",
+    "oas-tools": "^3.0.0",
     "winston": "^3.2.1"
   },
   "devDependencies": {
